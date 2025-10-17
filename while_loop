@@ -1,0 +1,20 @@
+## Repeated Steps (Loops)
+
+## This sequence shows how the two lines interact... 
+while n is decreasing by 1 each time an output is produced, the new variable will only print if it is greater than 1.
+
+### Code
+```python
+n = 5
+while n>1:
+    print(n)
+    n = n-1
+```
+
+### Output
+```
+5
+4
+3
+2
+```
