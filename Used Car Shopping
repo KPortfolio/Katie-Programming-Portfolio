@@ -1,0 +1,86 @@
+## Used Car Shopping 
+
+## This code should help users find a car that is going to get them the lowest cost per useful mile
+taking into account miles already on the car, expected remaining mileage, fuel efficiency, purchase price, 
+and estimated maintenance
+It will create a graph that depicts this with an x axis being the current odometer reading 
+and the y axis being the cost per mile of remaining life, so that the user can visually compare the 
+values of used cars with a feature that allows them to also add the estimated maintenance.
+
+formula to calculate cost per remaining miles: initial purchase cost/Expected remaining miles
+
+X-axis: Odometer reading
+Y-axis: Cost per mile
+different lines = different cars 
+
+## Code
+
+```python3
+import matplotlib.pyplot as plt
+
+def car_value_analysis(car_data_list):
+    """
+    car_data_list: a list of dictionaries, each with:
+        'name', 'purchase_price', 'odometer', 'cost_per_mile', 'remaining_miles', 'total_maintenance'
+    """
+    plt.figure(figsize=(8, 5))
+    
+    for car in car_data_list:
+        # Convert remaining_miles to int for range()
+        mileage = list(range(0, int(car['remaining_miles']) + 1, 1000))
+        total_cost = [
+            car['purchase_price'] + (m * car['cost_per_mile']) + car['total_maintenance']
+            for m in mileage
+        ]
+        total_mileage = [car['odometer'] + m for m in mileage]
+        plt.plot(total_mileage, total_cost, marker='o', label=car['name'])
+    
+    plt.title("Used Car Value and Cost Comparison")
+    plt.xlabel("Total Mileage")
+    plt.ylabel("Total Estimated Cost ($)")
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+# -------------------- Input Section --------------------
+cars = []
+
+num_cars = int(input("How many cars do you want to compare? "))
+
+for i in range(num_cars):
+    print(f"\nEnter data for Car {i+1}:")
+    name = input("Car name: ")
+    purchase_price = float(input("Purchase price ($): "))
+    odometer = float(input("Current odometer reading (miles): "))
+    cost_per_mile = float(input("Estimated cost per mile ($): "))
+    total_expected_odometer = float(input("Total expected odometer (miles): "))
+
+    # Calculate remaining miles
+    remaining_miles = total_expected_odometer - odometer
+    if remaining_miles < 0:
+        print("Warning: Total expected odometer is less than current odometer. Setting remaining miles to 0.")
+        remaining_miles = 0
+
+    # Yearly maintenance input
+    yearly_maintenance = float(input("Estimated yearly maintenance cost ($): "))
+    estimated_years = remaining_miles / 12000  # assume 12,000 miles per year
+    total_maintenance = yearly_maintenance * estimated_years
+
+    # Store car data
+    cars.append({
+        'name': name,
+        'purchase_price': purchase_price,
+        'odometer': odometer,
+        'cost_per_mile': cost_per_mile,
+        'remaining_miles': remaining_miles,
+        'total_maintenance': total_maintenance
+    })
+
+# -------------------- Generate Graph --------------------
+car_value_analysis(cars)
+```
+
+## Output
+A graoh with two lines that depict the value of the car over time
