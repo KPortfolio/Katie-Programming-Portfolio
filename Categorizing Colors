@@ -1,0 +1,26 @@
+## Categorizing Colors
+
+## This simple code allows the user to input a color 
+and receive an output that indicates whether the color is a primary or secondary color.
+
+### Code
+```python
+while True:
+    color = input("type a color: ").strip().lower()
+    if color in ["red", "yellow", "blue"]:
+        print("primary color")
+    elif color in ["orange", "green", "purple"]:
+        print("secondary color")
+    else:
+        print("not a primary or secondary color")
+```
+
+## Example Output
+type a color: red
+primary color
+
+type a color: green
+secondary color
+
+type a color: pink
+not a primary or secondary color
